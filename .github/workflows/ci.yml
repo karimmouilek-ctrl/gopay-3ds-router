@@ -1,0 +1,17 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Build placeholder"
+  pci-dss-linter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          if grep -rE '[0-9]{13,19}' src/main --include='*.java' | grep -i 'log\.' 2>/dev/null; then
+            echo "::error::Possible PAN in log"; exit 1
+          fi
+          echo "PCI-DSS lint OK"
