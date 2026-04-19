@@ -1,0 +1,19 @@
+version: 2
+policies:
+  - id: "fallback-it-bancafit-inc-gp-042"
+    condition:
+      region: "IT"
+      issuer_bin_prefix: "IT-BANCAFIT-11-"
+    action: "fallback_non_3ds"
+    valid_until: "2026-04-19T20:00:00Z"
+    reason: "INC-GP-042 issuer ACS degraded"
+    merchant_policy_required: true
+    linked_incident: "INC-GP-042"
+
+  - id: "fallback-es-degraded-pool"
+    condition:
+      region: "ES"
+      issuer_bin_prefix: "ES-BBVA-*"
+    action: "retry_then_fallback"
+    retry_count: 2
+    valid_until: "2026-04-25T00:00:00Z"
